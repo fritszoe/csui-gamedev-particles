@@ -1,10 +1,13 @@
-[gd_scene load_steps=8 format=3 uid="uid://d3a2sgehaqjdt"]
+[gd_scene load_steps=12 format=3 uid="uid://d3a2sgehaqjdt"]
 
-[ext_resource type="PackedScene" uid="uid://beg452kqkfydx" path="res://Scenes/Player.tscn" id="1"]
+[ext_resource type="PackedScene" uid="uid://beg452kqkfydx" path="res://scenes/Player.tscn" id="1"]
+[ext_resource type="Texture2D" uid="uid://c1r4hnfbn0dfb" path="res://assets/kenney_platformerpack/PNG/Backgrounds/blue_grass.png" id="1_4evlx"]
 [ext_resource type="PackedScene" uid="uid://cbrrsfnbg3p0g" path="res://scenes/Spawner.tscn" id="1_yaxqa"]
-[ext_resource type="Texture2D" uid="uid://r37ts0nyebjk" path="res://Assets/Familiar Looking Rocket.png" id="3"]
+[ext_resource type="Texture2D" uid="uid://r37ts0nyebjk" path="res://assets/Familiar Looking Rocket.png" id="3"]
 [ext_resource type="Texture2D" uid="uid://dd7fcijo64bic" path="res://assets/kenney_platformerpack/Spritesheets/spritesheet_gr_planet.png" id="4_8s0ta"]
 [ext_resource type="PackedScene" path="res://scenes/Area Trigger.tscn" id="4_t7cob"]
+[ext_resource type="PackedScene" path="res://scenes/Win Screen.tscn" id="5_t8dyl"]
+[ext_resource type="PackedScene" uid="uid://d3a2sgehaqjdt" path="res://scenes/Level 1.tscn" id="6_i3em3"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_we7op"]
 texture = ExtResource("4_8s0ta")
@@ -42,7 +45,35 @@ tile_size = Vector2i(128, 128)
 physics_layer_0/collision_layer = 1
 sources/0 = SubResource("TileSetAtlasSource_we7op")
 
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_mtd1d"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(2000, 10, 0)
+spread = 20.0
+gravity = Vector3(-500, 500, 0)
+scale_max = 10.0
+color = Color(0.833805, 0.948933, 0.989214, 1)
+
 [node name="Level 1" type="Node2D"]
+
+[node name="BlueGrass3" type="Sprite2D" parent="."]
+position = Vector2(2431, 6)
+texture = ExtResource("1_4evlx")
+
+[node name="BlueGrass2" type="Sprite2D" parent="."]
+position = Vector2(1414, 8)
+texture = ExtResource("1_4evlx")
+
+[node name="BlueGrass" type="Sprite2D" parent="."]
+position = Vector2(400, 6)
+texture = ExtResource("1_4evlx")
+
+[node name="BlueGrass" type="Sprite2D" parent="BlueGrass"]
+position = Vector2(-1017, 2)
+texture = ExtResource("1_4evlx")
+
+[node name="Spawner2" parent="." instance=ExtResource("1_yaxqa")]
+position = Vector2(1736, 367)
 
 [node name="Spawner" parent="." instance=ExtResource("1_yaxqa")]
 position = Vector2(734, 90)
@@ -52,14 +83,23 @@ position = Vector2(2170.27, 73.2836)
 texture = ExtResource("3")
 
 [node name="Area3D Trigger" parent="Sprite2D" instance=ExtResource("4_t7cob")]
+scene = ExtResource("5_t8dyl")
 
 [node name="Area3D Trigger2" parent="." instance=ExtResource("4_t7cob")]
 position = Vector2(2170.27, 73.2836)
+scene = ExtResource("6_i3em3")
 
 [node name="TileMap" type="TileMap" parent="."]
 tile_set = SubResource("TileSet_5i4ah")
 format = 2
-layer_0/tile_data = PackedInt32Array(196607, 0, 0, 131072, 0, 0, 131073, 0, 0, 131074, 0, 0, 131075, 0, 0, 131076, 0, 0, 196615, 0, 0, 196616, 0, 0, 196617, 0, 0, 196618, 0, 0, 196619, 0, 0, 196620, 0, 0, 196621, 0, 0, 196622, 0, 0, 196623, 0, 0, 196624, 0, 0, 196625, 0, 0, 196626, 0, 0, 131079, 0, 0, 65543, 0, 0, 131080, 0, 0, 65540, 0, 0, 65541, 0, 0)
+layer_0/tile_data = PackedInt32Array(196607, 0, 0, 131072, 0, 0, 131073, 0, 0, 131074, 0, 0, 131075, 0, 0, 131076, 0, 0, 196615, 0, 0, 196616, 0, 0, 196617, 0, 0, 196618, 0, 0, 196619, 0, 0, 196620, 0, 0, 196621, 0, 0, 196622, 0, 0, 196623, 0, 0, 196624, 0, 0, 196625, 0, 0, 196626, 0, 0, 65543, 0, 0, 65540, 0, 0, 65541, 0, 0, 131080, 0, 1)
 
 [node name="Player" parent="." instance=ExtResource("1")]
 position = Vector2(135.152, 106.001)
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+amount = 100
+process_material = SubResource("ParticleProcessMaterial_mtd1d")
+lifetime = 4.0
+visibility_rect = Rect2(-100, -100, 2000, 500)
+trail_enabled = true

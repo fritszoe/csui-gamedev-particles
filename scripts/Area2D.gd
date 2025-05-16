@@ -1,7 +1,7 @@
 extends Area2D
 
-@export var sceneName: String = "Level 1"
+@export var scene: PackedScene
 
 func _on_Area_Trigger_body_entered(body):
-	if body.get_name() == "Player":
-		get_tree().change_scene_to_file(str("res://Scenes/" + sceneName + ".tscn"))
+	if body.name == "Player" and scene:
+		get_tree().change_scene_to_packed(scene)
